@@ -37,7 +37,11 @@ public class StatusUpdate {
     }
 
     public static void print(String text, int count) {
-        System.out.print("\r" + time() + "  " + text + count);
+        if (!oldOut.equals(time())) {
+            oldOut = time();
+            System.out.print("\r" + time() + "  " + text + count + " ("+ (count-readCount) +" rpm)");
+            readCount = count;
+        }
     }
 
     public static void print(String text) {
@@ -52,6 +56,7 @@ public class StatusUpdate {
             System.out.print("\r" + time() + " Mapped: " + readCount);
         }
     }
+
     public static void println(String text) {
         System.out.println("\r" + time() + "  " + text);
     }
