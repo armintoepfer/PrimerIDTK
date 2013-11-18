@@ -1,1 +1,1 @@
-# Primer ID Tool Kit
+# Primer ID ToolKit
