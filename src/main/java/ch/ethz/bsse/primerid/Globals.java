@@ -16,6 +16,9 @@
  */
 package ch.ethz.bsse.primerid;
 
+import jaligner.matrix.Matrix;
+import jaligner.matrix.MatrixLoader;
+import jaligner.matrix.MatrixLoaderException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,4 +36,15 @@ public class Globals {
     public static int RTP_NOT_FIRST = 0;
     public static int PID_TOO_LARGE = 0;
     public static Map<Integer, Integer> PID_SIZE = new HashMap<>();
+    public static Matrix MATRIX = loadMatrix();
+    
+    private static Matrix loadMatrix() {
+        Matrix m = null;
+        try {
+            m = MatrixLoader.load("EDNAFULL");
+        } catch (MatrixLoaderException ex) {
+            System.err.println("Matrix error loading");
+        }
+        return m;
+    }
 }

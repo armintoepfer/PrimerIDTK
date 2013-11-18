@@ -44,16 +44,6 @@ public class SequenceEntry {
         this.quality = quality;
     }
 
-    public static Matrix loadMatrix() {
-        Matrix m = null;
-        try {
-            m = MatrixLoader.load("EDNAFULL");
-        } catch (MatrixLoaderException ex) {
-            System.err.println("Matrix error loading");
-        }
-        return m;
-    }
-
     private boolean isGAP(char c) {
         return c == '-' || c == 'N';
     }
@@ -62,7 +52,7 @@ public class SequenceEntry {
         Alignment alignNSH = SmithWatermanGotoh.align(
                 new Sequence(this.sequence.substring(0, 100), "", "", Sequence.NUCLEIC),
                 new Sequence(NSH, "", "", Sequence.NUCLEIC),
-                loadMatrix(), 30, 3);
+                Globals.MATRIX, 30, 3);
         if (alignNSH == null) {
             System.err.println("NO MATCH AT ALL");
             return;
@@ -103,7 +93,7 @@ public class SequenceEntry {
         Alignment alignPrefix = SmithWatermanGotoh.align(
                 new Sequence(this.sequence.substring(nsh_end, maxL), "", "", Sequence.NUCLEIC),
                 new Sequence(prefix, "", "", Sequence.NUCLEIC),
-                loadMatrix(), 30, 3);
+                Globals.MATRIX, 30, 3);
         char[] prefix_cigar = computeCigar(alignPrefix.getMarkupLine(), alignPrefix.getSequence2(), alignPrefix.getSequence1());
         int prefix_length = 0;
         int prefix_mismatches = 0;
