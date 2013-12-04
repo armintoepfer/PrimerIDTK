@@ -61,7 +61,7 @@ public class PrimerID {
                 try {
                     FileOutputStream fos = new FileOutputStream(Globals.INPUT + ".saved");
                     try (ObjectOutputStream out = new ObjectOutputStream(fos)) {
-                        out.writeObject(new InformationHolder(Globals.PID_SIZE));
+                        out.writeObject(new InformationHolder(Globals.PID_SIZE,Globals.PID_OCCURENCE));
                     }
                 } catch (IOException ex) {
                 }
@@ -76,9 +76,11 @@ public class PrimerID {
                     System.err.println(ex);
                 }
                 Globals.PID_SIZE = ih.pid_size;
+                Globals.PID_OCCURENCE = ih.pid_occurence;
+                Globals.INPUT = this.saved;
                 ih = null;
-                System.out.println(Globals.PID_SIZE.keySet());
             }
+            new KmerStats().splitPIDs();
         } catch (CmdLineException cmderror) {
             System.err.println(cmderror.getMessage());
             System.err.println("");
@@ -112,7 +114,7 @@ public class PrimerID {
                 "3236a_S4_L001_R2_001.fastq",
                 "3236b_S5_L001_R2_001.fastq",
                 "3236c_S6_L001_R2_001.fastq"};
-            String[] primer = new String[]{"GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "CCAAAGGAATGGAGGTTCTTTCTGATG", "CCAAAGGAATGGAGGTTCTTTCTGATG", "CCAAAGGAATGGAGGTTCTTTCTGATG"};
+            String[] primer = new String[]{"GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "CCAAAGGAATGGAG", "CCAAAGGAATGGAG", "CCAAAGGAATGGAG"};
             Globals.INPUT = files[xlr];
             Globals.RT_PRIMER = primer[xlr];
         } else {

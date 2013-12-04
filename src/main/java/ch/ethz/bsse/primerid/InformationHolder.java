@@ -24,11 +24,13 @@ import java.util.Map;
  */
 public class InformationHolder implements Serializable {
 
-    private static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 12L;
     public Map<Integer, Integer> pid_size;
+    public Map<String, Integer> pid_occurence;
 
-    public InformationHolder(Map<Integer, Integer> pid_size) {
+    public InformationHolder(Map<Integer, Integer> pid_size, Map<String, Integer> pid_occurence) {
         this.pid_size = pid_size;
+        this.pid_occurence = pid_occurence;
     }
 
 }

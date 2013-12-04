@@ -19,9 +19,6 @@ package ch.ethz.bsse.primerid;
 import jaligner.Alignment;
 import jaligner.Sequence;
 import jaligner.SmithWatermanGotoh;
-import jaligner.matrix.Matrix;
-import jaligner.matrix.MatrixLoader;
-import jaligner.matrix.MatrixLoaderException;
 
 /**
  * @author Armin Töpfer (armin.toepfer [at] gmail.com)
@@ -30,8 +27,6 @@ public class SequenceEntry {
 
     final int HAMMING_DISTANCE = 2;
     final String NSH = "GCCTTGCACG";
-//    final String NSH = "GCCTTGCCAGCACGCTCAGGCCTTGCACG";
-//    String prefix = "GGTTCTTTCTGATG";
     public String sequence;
     public String header;
     public String quality;
@@ -82,6 +77,7 @@ public class SequenceEntry {
                         break;
                     case 'I':
                         nsh_ins++;
+                        nsh_hit++;
                 }
             }
         }

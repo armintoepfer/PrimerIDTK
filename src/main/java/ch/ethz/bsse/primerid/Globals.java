@@ -26,18 +26,23 @@ import java.util.Map;
  * @author Armin Töpfer (armin.toepfer [at] gmail.com)
  */
 public class Globals {
+
     public static String INPUT;
     public static String RT_PRIMER;
-    
+
     public static int NSH_TOO_SMALL = 0;
     public static int NSH_MISMATCH = 0;
     public static int RTP_TOO_SMALL = 0;
     public static int RTP_MISMATCH = 0;
     public static int RTP_NOT_FIRST = 0;
     public static int PID_TOO_LARGE = 0;
+    public static int KMER_LENGTH = 6;
+
+    public static Map<String, Integer> PID_OCCURENCE = new HashMap<>();
     public static Map<Integer, Integer> PID_SIZE = new HashMap<>();
-    public static Matrix MATRIX = loadMatrix();
     
+    public static Matrix MATRIX = loadMatrix();
+
     private static Matrix loadMatrix() {
         Matrix m = null;
         try {

@@ -49,23 +49,22 @@ public class Preprocessing {
             }
         }
         StatusUpdate.println("Reads:\t " + j);
-        Map<String, Integer> primer_occurences = new HashMap<>();
         Map<String, List<SequenceEntry>> primer_sequences = new HashMap<>();
         for (SequenceEntry sequence : sequences) {
-            if (!primer_occurences.containsKey(sequence.primer_id)) {
-                primer_occurences.put(sequence.primer_id, 1);
+            if (!Globals.PID_OCCURENCE.containsKey(sequence.primer_id)) {
+                Globals.PID_OCCURENCE.put(sequence.primer_id, 1);
             } else {
-                primer_occurences.put(sequence.primer_id, primer_occurences.get(sequence.primer_id) + 1);
+                Globals.PID_OCCURENCE.put(sequence.primer_id, Globals.PID_OCCURENCE.get(sequence.primer_id) + 1);
             }
             if (!primer_sequences.containsKey(sequence.primer_id)) {
                 primer_sequences.put(sequence.primer_id, new LinkedList<SequenceEntry>());
             }
             primer_sequences.get(sequence.primer_id).add(sequence);
         }
-        StringBuilder out = new StringBuilder(primer_occurences.size() * 10);
+        StringBuilder out = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
         int readCount = 0;
         int uniques = 0;
-        for (Map.Entry<String, Integer> e : primer_occurences.entrySet()) {
+        for (Map.Entry<String, Integer> e : Globals.PID_OCCURENCE.entrySet()) {
             if (e.getKey() != null) {
                 readCount += e.getValue();
                 uniques++;
