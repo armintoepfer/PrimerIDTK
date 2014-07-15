@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2013 Armin Töpfer
+ * Copyright (c) 2014 Armin Töpfer
  *
  * This file is part of PrimerIDTK.
  *
- * InDelFixer is free software: you can redistribute it and/or modify it under
+ * PrimerIDTK is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or any later version.
  *
- * InDelFixer is distributed in the hope that it will be useful, but WITHOUT ANY
+ * PrimerIDTK is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * InDelFixer. If not, see <http://www.gnu.org/licenses/>.
+ * PrimerIDTK. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.ethz.bsse.primerid;
 
@@ -101,7 +101,7 @@ public class PrimerID {
             System.err.println("  -XX:+UseNUMA\t\t: Enhances performance on multi-CPU systems.");
             System.err.println(" -------------------------");
             System.err.println(" === EXAMPLES ===");
-            System.err.println("   java -XX:+UseParallelGC -Xms2g -Xmx10g -XX:+UseNUMA -XX:NewRatio=9 -jar PrimerIDTK.jar -i R2.fastq");
+            System.err.println("   java -XX:+UseParallelGC -Xms2g -Xmx10g -XX:+UseNUMA -XX:NewRatio=9 -jar PrimerID.jar -i R2.fastq");
             System.err.println(" -------------------------");
         }
     }
@@ -110,20 +110,20 @@ public class PrimerID {
         if (xlr != -1) {
             String[] files = new String[]{
                 //"/Users/XLR/Dropbox/Projects/PrimerID/raw_data/a.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223a_S1_L001_R2_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223b_S2_L001_R2_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223c_S3_L001_R2_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236a_S4_L001_R2_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236b_S5_L001_R2_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236c_S6_L001_R2_001.fastq"};
+                "3223a_S1_L001_R2_001.fastq",
+                "3223b_S2_L001_R2_001.fastq",
+                "3223c_S3_L001_R2_001.fastq",
+                "3236a_S4_L001_R2_001.fastq",
+                "3236b_S5_L001_R2_001.fastq",
+                "3236c_S6_L001_R2_001.fastq"};
             String[] files2 = new String[]{
                 //"/Users/XLR/Dropbox/Projects/PrimerID/raw_data/a.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223a_S1_L001_R1_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223b_S2_L001_R1_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223c_S3_L001_R1_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236a_S4_L001_R1_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236b_S5_L001_R1_001.fastq",
-                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236c_S6_L001_R1_001.fastq"};
+                "3223a_S1_L001_R1_001.fastq",
+                "3223b_S2_L001_R1_001.fastq",
+                "3223c_S3_L001_R1_001.fastq",
+                "3236a_S4_L001_R1_001.fastq",
+                "3236b_S5_L001_R1_001.fastq",
+                "3236c_S6_L001_R1_001.fastq"};
             String[] primer = new String[]{"GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "CCAAAGGAATGGAG", "CCAAAGGAATGGAG", "CCAAAGGAATGGAG"};
             Globals.INPUT = files[xlr];
             Globals.INPUT2 = files2[xlr];

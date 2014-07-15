@@ -5,7 +5,7 @@
 
     <groupId>ch.ethz.bsse</groupId>
     <artifactId>primeridtk</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
 
     <name>PrimerIDTK</name>
