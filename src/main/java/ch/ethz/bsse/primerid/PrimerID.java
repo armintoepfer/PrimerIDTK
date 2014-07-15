@@ -34,6 +34,8 @@ public class PrimerID {
     
     @Option(name = "-i")
     private String input;
+    @Option(name = "-ir")
+    private String input2;
     @Option(name = "-rt")
     private String rt_primer;
     @Option(name = "-s")
@@ -107,18 +109,28 @@ public class PrimerID {
     private void setGlobal() {
         if (xlr != -1) {
             String[] files = new String[]{
-                "/Users/XLR/Dropbox/Projects/PrimerID/raw_data/a.fastq",
-                "3223a_S1_L001_R2_001.fastq",
-                "3223b_S2_L001_R2_001.fastq",
-                "3223c_S3_L001_R2_001.fastq",
-                "3236a_S4_L001_R2_001.fastq",
-                "3236b_S5_L001_R2_001.fastq",
-                "3236c_S6_L001_R2_001.fastq"};
-            String[] primer = new String[]{"GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "CCAAAGGAATGGAG", "CCAAAGGAATGGAG", "CCAAAGGAATGGAG"};
+                //"/Users/XLR/Dropbox/Projects/PrimerID/raw_data/a.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223a_S1_L001_R2_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223b_S2_L001_R2_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223c_S3_L001_R2_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236a_S4_L001_R2_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236b_S5_L001_R2_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236c_S6_L001_R2_001.fastq"};
+            String[] files2 = new String[]{
+                //"/Users/XLR/Dropbox/Projects/PrimerID/raw_data/a.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223a_S1_L001_R1_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223b_S2_L001_R1_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3223c_S3_L001_R1_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236a_S4_L001_R1_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236b_S5_L001_R1_001.fastq",
+                "/Users/toepfera/Dropbox/projects/PrimerID/raw_data/3236c_S6_L001_R1_001.fastq"};
+            String[] primer = new String[]{"GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "GGTTCTTTCTGATG", "CCAAAGGAATGGAG", "CCAAAGGAATGGAG", "CCAAAGGAATGGAG"};
             Globals.INPUT = files[xlr];
+            Globals.INPUT2 = files2[xlr];
             Globals.RT_PRIMER = primer[xlr];
         } else {
             Globals.INPUT = this.input;
+            Globals.INPUT2 = this.input2;
             Globals.RT_PRIMER = this.rt_primer;
         }
     }

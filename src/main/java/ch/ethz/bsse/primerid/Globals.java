@@ -28,6 +28,7 @@ import java.util.Map;
 public class Globals {
 
     public static String INPUT;
+    public static String INPUT2;
     public static String RT_PRIMER;
 
     public static int NSH_TOO_SMALL = 0;

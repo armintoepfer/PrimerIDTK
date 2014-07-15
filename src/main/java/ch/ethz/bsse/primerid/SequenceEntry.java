@@ -27,11 +27,13 @@ public class SequenceEntry {
 
     final int HAMMING_DISTANCE = 2;
     final String NSH = "GCCTTGCACG";
+//    final String NSH = "GCCTTGCCAGCACGCTCAGGCCTTGCACG";
     public String sequence;
     public String header;
     public String quality;
     public int hamming_distance;
     public String primer_id;
+    public SequenceEntry crick;
 
     public SequenceEntry(String sequence, String header, String quality) {
         this.sequence = sequence;
@@ -50,6 +52,7 @@ public class SequenceEntry {
                 Globals.MATRIX, 30, 3);
         if (alignNSH == null) {
             System.err.println("NO MATCH AT ALL");
+            System.exit(0);
             return;
         }
 
@@ -137,7 +140,7 @@ public class SequenceEntry {
             failed = true;
         }
         if (!failed) {
-            this.primer_id = sequence.substring(nsh_end, nsh_end + prefixStart);
+            this.primer_id = Utils.reverseComplement(sequence.substring(nsh_end, nsh_end + prefixStart));
         }
     }
 

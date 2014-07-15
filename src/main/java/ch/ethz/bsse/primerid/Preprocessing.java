@@ -33,6 +33,7 @@ public class Preprocessing {
 
     public void compute() throws FileNotFoundException, IOException {
         BufferedReader brWatson = new BufferedReader(new FileReader(new File(Globals.INPUT)));
+        BufferedReader brCrick = new BufferedReader(new FileReader(new File(Globals.INPUT2)));
         List<SequenceEntry> sequences = new LinkedList<>();
         int j = 0;
         for (;;) {
@@ -40,6 +41,7 @@ public class Preprocessing {
             try {
                 SequenceEntry watsonQ = parseFastq(brWatson);
                 if (watsonQ != null) {
+                    watsonQ.crick = parseFastq(brCrick);
                     sequences.add(watsonQ);
                     watsonQ.split(Globals.RT_PRIMER);
                     StatusUpdate.print("Reads:\t ", j);
@@ -62,6 +64,15 @@ public class Preprocessing {
             primer_sequences.get(sequence.primer_id).add(sequence);
         }
         StringBuilder out = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder flat_3 = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder flat_100 = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder flat_100_fasta = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder flat_trash = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder flat_weighted_3 = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder flat_weighted_100 = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder flat_weighted_trash = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder matrix = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+        StringBuilder matrix_weighted = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
         int readCount = 0;
         int uniques = 0;
         for (Map.Entry<String, Integer> e : Globals.PID_OCCURENCE.entrySet()) {
@@ -69,13 +80,66 @@ public class Preprocessing {
                 readCount += e.getValue();
                 uniques++;
                 out.append(e.getKey()).append("\t").append(e.getValue()).append("\n");
+                if (e.getKey().length() == 10) {
+                    StringBuilder tmp = new StringBuilder(Globals.PID_OCCURENCE.size() * 10);
+                    for (char c : e.getKey().toCharArray()) {
+                        switch (c) {
+                            case 'A':
+                                tmp.append("0\t");
+                                break;
+                            case 'C':
+                                tmp.append("1\t");
+                                break;
+                            case 'G':
+                                tmp.append("2\t");
+                                break;
+                            case 'T':
+                                tmp.append("3\t");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    tmp.append(e.getValue()).append("\n");
+                    matrix.append(tmp);
+                    for (int i = 0; i < e.getValue(); i++) {
+                        matrix_weighted.append(tmp);
+                    }
+
+                    if (e.getValue() >= 100) {
+                        for (int i = 0; i < e.getValue(); i++) {
+                            flat_weighted_100.append(e.getKey().toLowerCase()).append("\n");
+                        }
+                        flat_100.append(e.getKey().toLowerCase()).append("\n");
+                        flat_100_fasta.append(">").append(Math.random()).append("\n").append(e.getKey().toLowerCase()).append("\n");
+                    } else if (e.getValue() >= 3) {
+                        for (int i = 0; i < e.getValue(); i++) {
+                            flat_weighted_3.append(e.getKey().toLowerCase()).append("\n");
+                        }
+                        flat_3.append(e.getKey().toLowerCase()).append("\n");
+                    } else {
+                        flat_weighted_trash.append(e.getKey().toLowerCase()).append("\n");
+                        for (int i = 0; i < e.getValue(); i++) {
+                        }
+                        flat_trash.append(e.getKey().toLowerCase()).append("\n");
+                    }
+                }
                 if (!Globals.PID_SIZE.containsKey(e.getKey().length())) {
                     Globals.PID_SIZE.put(e.getKey().length(), 0);
                 }
                 Globals.PID_SIZE.put(e.getKey().length(), Globals.PID_SIZE.get(e.getKey().length()) + 1);
             }
         }
+        Utils.saveFile(Globals.INPUT + ".matrix", matrix.toString());
+        Utils.saveFile(Globals.INPUT + ".matrixweighted", matrix_weighted.toString());
         Utils.saveFile(Globals.INPUT + ".dist", out.toString());
+        Utils.saveFile(Globals.INPUT + ".flat3", flat_3.toString());
+        Utils.saveFile(Globals.INPUT + ".flat100", flat_100.toString());
+        Utils.saveFile(Globals.INPUT + ".flat100.fasta", flat_100_fasta.toString());
+        Utils.saveFile(Globals.INPUT + ".flattrash", flat_trash.toString());
+        Utils.saveFile(Globals.INPUT + ".flatweighted3", flat_weighted_3.toString());
+        Utils.saveFile(Globals.INPUT + ".flatweighted100", flat_weighted_100.toString());
+        Utils.saveFile(Globals.INPUT + ".flatweightedtrash", flat_weighted_trash.toString());
         StringBuilder stats = new StringBuilder();
         stats.append("Reads with primerID:\t ").append(readCount).append("\n");
         stats.append("Unique primerIDs:\t ").append(uniques).append("\n");
@@ -89,21 +153,30 @@ public class Preprocessing {
 
         System.out.println(" === STATS ===");
         System.out.println(stats.toString());
-//            new File(files[i] + "_sequences/").mkdirs();
-//            for (Map.Entry<String, List<SequenceEntry>> e : primer_sequences.entrySet()) {
-//                StringBuilder sb = new StringBuilder();
-//                if (e.getValue().size() >= 3) {
-//                    int x = 0;
-//                    for (SequenceEntry se : e.getValue()) {
-//                        sb.append("@").append(x++).append("\n");
-//                        sb.append(se.sequence).append("\n");
-//                        sb.append("+").append("\n");
-//                        sb.append(se.quality).append("\n");
-//                    }
-//                    saveFile(files[i] + "_sequences/" + e.getValue().size() + "_" + e.getKey() + ".fastq", sb.toString());
-//                }
-//            }
-        //            saveFile(files[i] + "_" + k + ".dist", out.toString());
+        new File(Globals.INPUT + "_sequences/").mkdirs();
+        for (Map.Entry<String, List<SequenceEntry>> e : primer_sequences.entrySet()) {
+            if (e.getKey() != null && e.getKey().length() == 10 && e.getValue().size() >= 3) {
+                StringBuilder sb = new StringBuilder();
+                int x = 0;
+                for (SequenceEntry se : e.getValue()) {
+                    sb.append("@").append(x++).append("/2\n");
+                    sb.append(se.sequence).append("\n");
+                    sb.append("+").append("\n");
+                    sb.append(se.quality).append("\n");
+                }
+                Utils.saveFile(Globals.INPUT + "_sequences/" + e.getValue().size() + "_" + e.getKey() + "_R2.fastq", sb.toString());
+                sb.setLength(0);
+                x = 0;
+                for (SequenceEntry se : e.getValue()) {
+                    sb.append("@").append(x++).append("/1\n");
+                    sb.append(se.crick.sequence).append("\n");
+                    sb.append("+").append("\n");
+                    sb.append(se.crick.quality).append("\n");
+                }
+                Utils.saveFile(Globals.INPUT + "_sequences/" + e.getValue().size() + "_" + e.getKey() + "_R1.fastq", sb.toString());
+            }
+        }
+//        saveFile(files[i] + "_" + k + ".dist", out.toString());
 //        }
 //        }
         StringBuilder lengthDistribution = new StringBuilder();

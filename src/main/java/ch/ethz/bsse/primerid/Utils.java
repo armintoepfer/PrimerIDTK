@@ -36,4 +36,28 @@ public class Utils {
             System.err.println(path);
         }
     }
+    
+    public static String reverseComplement(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toUpperCase().toCharArray()) {
+            switch (c) {
+                case 'A':
+                    sb.append("T");
+                    break;
+                case 'C':
+                    sb.append("G");
+                    break;
+                case 'G':
+                    sb.append("C");
+                    break;
+                case 'T':
+                    sb.append("A");
+                    break;
+                case '-':
+                    sb.append("-");
+                    break;
+            }
+        }
+        return sb.reverse().toString();
+    }
 }
